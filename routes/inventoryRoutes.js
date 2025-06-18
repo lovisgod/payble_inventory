@@ -1,0 +1,13 @@
+const express = require('express');
+const inventoryController = require('../controllers/inventoryController');
+const validateToken = require('../handlers/validateToken');
+
+const router = express.Router();
+
+router.get('/items', inventoryController.getInventory);
+router.post('/item', inventoryController.addInventory);
+router.get('/item/:userId', validateToken, inventoryController.getInventoryItemsByUser);
+router.put('/:id', inventoryController.updateInventory);
+router.delete('/:id', inventoryController.deleteInventory);
+
+module.exports = router;
