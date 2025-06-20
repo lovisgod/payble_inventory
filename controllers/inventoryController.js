@@ -15,14 +15,15 @@ async function addInventory(req, res) {
         const newItem = await inventoryService.createInventoryItem(item);
         res.status(201).json(newItem);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        console.log('Error adding inventory item:', error);
+        res.status(500).json({ error: error.message });
     }
 }
 
 async function getInventoryItemsByUser(req, res) {
     try {
-        const body = req.body;
-        const items = await inventoryService.getInventoryItemsByUser(body.userId);
+        const userId = req.query.userId;
+        const items = await inventoryService.getInventoryItemsByUser(userId);
         if (!items || items.length === 0) {
             return res.status(404).json({ message: 'No inventory items found for this user.' });
         }

@@ -26,7 +26,8 @@ async function getInventoryItemsByUser(userId) {
 async function addInventoryItem(item) {
     const { data, error } = await supabase
         .from('inventory')
-        .insert([item]);
+        .insert(item)
+        .select();
 
     if (error) {
         throw new Error(error.message);

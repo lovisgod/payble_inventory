@@ -5,7 +5,7 @@ async function fetchInventoryItems() {
 }
 
 async function createInventoryItem(item) {
-    if (!item.name || !item.quantity) {
+    if (!item.name || !item.in_stock) {
         throw new Error('Item name and quantity are required');
     }
     return await inventoryRepository.addInventoryItem(item);
