@@ -18,6 +18,13 @@ async function getInventoryItemsByUser(userId) {
     return await inventoryRepository.getInventoryItemsByUser(userId);
 }
 
+async function searchInventory(userId, filters) {
+    if (!userId) {
+        throw new Error('User ID is required');
+    }
+    return await inventoryRepository.searchInventory(userId, filters);
+}
+
 async function modifyInventoryItem(id, updates) {
     if (!id || !updates) {
         throw new Error('Item ID and updates are required');
@@ -35,6 +42,7 @@ async function removeInventoryItem(id) {
 module.exports = {
     fetchInventoryItems,
     createInventoryItem,
+    searchInventory,
     modifyInventoryItem,
     removeInventoryItem,
     getInventoryItemsByUser
