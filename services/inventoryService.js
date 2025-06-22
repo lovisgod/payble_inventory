@@ -39,11 +39,16 @@ async function removeInventoryItem(id, userId) {
     return await inventoryRepository.deleteInventoryItem(id, userId);
 }
 
+async function fetchProductCategories() {
+    return await inventoryRepository.getProductCategories();
+}
+
 module.exports = {
     fetchInventoryItems,
     createInventoryItem,
     searchInventory,
     modifyInventoryItem,
     removeInventoryItem,
-    getInventoryItemsByUser
+    getInventoryItemsByUser,
+    fetchProductCategories
 };

@@ -10,5 +10,7 @@ router.get('/item', inventoryController.getInventoryItemsByUser);
 router.get('/item/search', inventoryController.searchInventory);
 router.put('/:id', inventoryController.updateInventory);
 router.delete('/:id', inventoryController.deleteInventory);
+router.get('/categories', inventoryController.getProductCategories);
+
 
 module.exports = router;

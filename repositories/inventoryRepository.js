@@ -84,6 +84,17 @@ async function deleteInventoryItem(id, userId) {
     return data;
 }
 
+async function getProductCategories() {
+    const { data, error } = await supabase
+        .from('category') // Assuming the table name is 'categories'
+        .select('*');
+
+    if (error) {
+        throw new Error(error.message);
+    }
+    return data;
+}
+
 module.exports = {
     getInventoryItems,
     getInventoryItemsByUser,
@@ -91,4 +102,5 @@ module.exports = {
     searchInventory,
     updateInventoryItem,
     deleteInventoryItem,
+    getProductCategories
 };

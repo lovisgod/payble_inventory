@@ -74,7 +74,16 @@ const inventoryController  = {
         } catch (error) {
             res.status(400).json({status: 'error', message: error.message });
         }
-    }
+    },
+
+    getProductCategories: async (req, res) => {
+        try {
+            const categories = await inventoryService.fetchProductCategories();
+            res.status(200).json({ status: 'success', data: categories });
+        } catch (error) {
+            res.status(400).json({ status: 'error', message: error.message });
+        }
+    },
 }
 
 module.exports = {
