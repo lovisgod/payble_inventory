@@ -25,18 +25,18 @@ async function searchInventory(userId, filters) {
     return await inventoryRepository.searchInventory(userId, filters);
 }
 
-async function modifyInventoryItem(id, updates) {
+async function modifyInventoryItem(id, updates, userId) {
     if (!id || !updates) {
         throw new Error('Item ID and updates are required');
     }
-    return await inventoryRepository.updateInventoryItem(id, updates);
+    return await inventoryRepository.updateInventoryItem(id, updates, userId);
 }
 
-async function removeInventoryItem(id) {
+async function removeInventoryItem(id, userId) {
     if (!id) {
         throw new Error('Item ID is required');
     }
-    return await inventoryRepository.deleteInventoryItem(id);
+    return await inventoryRepository.deleteInventoryItem(id, userId);
 }
 
 module.exports = {

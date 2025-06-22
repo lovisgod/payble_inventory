@@ -7,9 +7,9 @@ const inventoryController  = {
     getInventory: async (req, res) => {
         try {
             const items = await inventoryService.fetchInventoryItems();
-            res.status(200).json(items);
+            res.status(200).json({status: 'success', items });
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            res.status(400).json({status: 'error', message: error.message });
         }
     }, 
     
@@ -17,10 +17,10 @@ const inventoryController  = {
         try {
             const item = req.body;
             const newItem = await inventoryService.createInventoryItem(item);
-            res.status(201).json(newItem);
+            res.status(201).json({status: 'success', message: 'Item added successfully', item: newItem});
         } catch (error) {
             console.log('Error adding inventory item:', error);
-            res.status(500).json({ error: error.message });
+            res.status(500).json({status: 'error', message: error.message });
         }
     },
     
@@ -31,9 +31,9 @@ const inventoryController  = {
             if (!items || items.length === 0) {
                 return res.status(404).json({ message: 'No inventory items found for this user.' });
             }
-            res.status(200).json(items);
+            res.status(200).json({status: 'success', items });
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            res.status(400).json({status: 'error', message: error.message });
         }
     },
     
@@ -45,32 +45,34 @@ const inventoryController  = {
             console.log('Filters:', filters);
             const items = await inventoryService.searchInventory(userId, filters);
             if (!items || items.length === 0) {
-                return res.status(404).json({ message: 'No inventory items found for this user.' });
+                return res.status(404).json({status: 'Error', message: 'No inventory items found for this user.' });
             }
-            res.status(200).json(items);
+            res.status(200).json({status: 'success', items });
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            res.status(400).json({status: 'error', message: error.message });
         }
     },
     
     updateInventory: async (req, res) => {
         try {
             const id = req.params.id;
+            const { userId } = req.query;
             const updates = req.body;
-            const updatedItem = await inventoryService.modifyInventoryItem(id, updates);
-            res.status(200).json(updatedItem);
+            const updatedItem = await inventoryService.modifyInventoryItem(id, updates, userId);
+            res.status(200).json({status: 'success', message: 'Item updated successfully', item: updatedItem});
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            res.status(400).json({status: 'error', message: error.message });
         }
     },
     
     deleteInventory: async (req, res) => {
         try {
             const id = req.params.id;
-            const deletedItem = await inventoryService.removeInventoryItem(id);
-            res.status(200).json(deletedItem);
+            const { userId } = req.query;
+            const deletedItem = await inventoryService.removeInventoryItem(id, userId);
+            res.status(200).json({status: 'success', message: 'Item deleted successfully', item: deletedItem});
         } catch (error) {
-            res.status(400).json({ error: error.message });
+            res.status(400).json({status: 'error', message: error.message });
         }
     }
 }

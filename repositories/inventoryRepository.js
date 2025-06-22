@@ -54,23 +54,29 @@ async function addInventoryItem(item) {
     return data;
 }
 
-async function updateInventoryItem(id, updates) {
+async function updateInventoryItem(id, updates, userId) {
     const { data, error } = await supabase
         .from('inventory')
         .update(updates)
-        .eq('id', id);
-
+        .eq('id', id)
+        // .eq('user_id', userId)
+        .select();
+    if (!data || data.length === 0) {
+        throw new Error('Item not found or no changes made.');
+    }
     if (error) {
+        console.error('Error updating inventory item:', error);
         throw new Error(error.message);
     }
     return data;
 }
 
-async function deleteInventoryItem(id) {
+async function deleteInventoryItem(id, userId) {
     const { data, error } = await supabase
         .from('inventory')
         .delete()
-        .eq('id', id);
+        .eq('id', id)
+        .eq('user_id', userId);
 
     if (error) {
         throw new Error(error.message);
