@@ -29,7 +29,7 @@ const inventoryController  = {
             const userId = req.query.userId;
             const items = await inventoryService.getInventoryItemsByUser(userId);
             if (!items || items.length === 0) {
-                return res.status(404).json({ message: 'No inventory items found for this user.' });
+                return res.status(200).json({ status: 'success', items: [] });
             }
             res.status(200).json({status: 'success', items });
         } catch (error) {
