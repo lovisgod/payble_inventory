@@ -84,6 +84,44 @@ const inventoryController  = {
             res.status(400).json({ status: 'error', message: error.message });
         }
     },
+
+    addDiscount: async (req, res) => {
+        try {
+            const discount = req.body;
+            if (!discount || !discount.user_id) {
+                return res.status(400).json({ status: 'error', message: 'Invalid discount data' });
+            }
+            const newDiscount = await inventoryService.addDiscount(discount);
+            res.status(200).json({ status: 'success', message: 'Discount added successfully', discount: newDiscount });
+        } catch (error) {
+            console.log('Error adding discount:', error);
+            res.status(500).json({ status: 'error', message: error.message });
+        }
+    },
+    getUserDiscounts: async (req, res) => {
+       try {
+            const userId = req.query.userId;
+            const discounts = await inventoryService.getUserDiscounts(userId);
+            if (!discounts || discounts.length === 0) {
+                return res.status(200).json({ status: 'success', discounts: [] });
+            }
+            res.status(200).json({status: 'success', discounts });
+        } catch (error) {
+            res.status(400).json({status: 'error', message: error.message });
+        }
+    },
+
+    deleteDiscount: async (req, res) => {
+        try {
+            const id = req.params.id;
+            const { userId } = req.query;
+            const deletedDiscount = await inventoryService.deleteDiscount(id, userId);
+            res.status(200).json({status: 'success', message: 'Discount deleted successfully', discount: deletedDiscount});
+        } catch (error) {
+            res.status(400).json({status: 'error', message: error.message });
+        }
+    }
+    
 }
 
 module.exports = {

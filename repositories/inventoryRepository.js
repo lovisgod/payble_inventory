@@ -1,3 +1,4 @@
+const { get } = require('../app');
 const supabase = require('../handlers/supabaseConnector');
 
 async function getInventoryItems() {
@@ -95,6 +96,43 @@ async function getProductCategories() {
     return data;
 }
 
+async function addDiscount(discount) {
+    const { data, error } = await supabase
+        .from('discount')
+        .insert(discount)
+        .select();
+
+    if (error) {
+        throw new Error(error.message);
+    }
+    return data;
+}
+
+async function getUserDiscounts(userId) {
+    const { data, error } = await supabase
+        .from('discount')
+        .select('*')
+        .eq('user_id', userId);
+
+    if (error) {
+        throw new Error(error.message);
+    }
+    return data;
+}
+
+async function deleteDiscount(id, userId) {
+    const { data, error } = await supabase
+        .from('discount')
+        .delete()
+        .eq('id', id)
+        .eq('user_id', userId);
+
+    if (error) {
+        throw new Error(error.message);
+    }
+    return data;
+}
+
 module.exports = {
     getInventoryItems,
     getInventoryItemsByUser,
@@ -102,5 +140,8 @@ module.exports = {
     searchInventory,
     updateInventoryItem,
     deleteInventoryItem,
-    getProductCategories
+    getProductCategories,
+    addDiscount,
+    getUserDiscounts,
+    deleteDiscount
 };

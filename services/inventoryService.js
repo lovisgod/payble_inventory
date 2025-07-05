@@ -43,6 +43,18 @@ async function fetchProductCategories() {
     return await inventoryRepository.getProductCategories();
 }
 
+async function addDiscount(discount) {
+  return await inventoryRepository.addDiscount(discount);
+}
+
+async function getUserDiscounts(userId) {
+    return await inventoryRepository.getUserDiscounts(userId);
+}
+
+async function deleteDiscount(id, userId) {
+   return await inventoryRepository.deleteDiscount(id, userId);
+}
+
 module.exports = {
     fetchInventoryItems,
     createInventoryItem,
@@ -50,5 +62,8 @@ module.exports = {
     modifyInventoryItem,
     removeInventoryItem,
     getInventoryItemsByUser,
-    fetchProductCategories
+    fetchProductCategories,
+    addDiscount,
+    getUserDiscounts,
+    deleteDiscount
 };
