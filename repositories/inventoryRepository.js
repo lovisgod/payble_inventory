@@ -1,4 +1,3 @@
-const { get } = require('../app');
 const supabase = require('../handlers/supabaseConnector');
 
 async function getInventoryItems() {
@@ -19,6 +18,7 @@ async function getInventoryItemsByUser(userId) {
         .eq('user_id', userId);
 
     if (error) {
+        console.error('Error fetching inventory items by user:', error);
         throw new Error(error.message);
     }
     return data;
