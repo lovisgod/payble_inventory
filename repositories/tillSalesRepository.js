@@ -35,6 +35,10 @@ const TillSalesRepository = {
         if (!status) {
             throw new Error(message);
         }
+        // remove synced and transaction_date from sale object
+        // this is to ensure that these fields are not sent to the database
+        delete sale.synced;
+        delete sale.transaction_date;
         const { data, error } = await supabase
             .from('till_sales')
             .insert(sale)

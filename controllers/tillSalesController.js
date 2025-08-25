@@ -33,6 +33,7 @@ const TillSalesController = {
             const newSale = await TillSalesService.addTillSale(sale);
             res.status(201).json({ status: 'success', message: 'Sale added successfully', sale: newSale });
         } catch (error) {
+            console.log('Error adding till sale:', error);
             res.status(400).json({ status: 'error', message: error.message });
         }
     }

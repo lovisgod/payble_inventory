@@ -17,6 +17,9 @@ const Joi = require('joi');
   payment_method: Joi.string().valid('cash', 'card', 'transfer').required(),
   notes: Joi.string().optional().allow(''),
   ref: Joi.string().optional().allow(''),
+  synced: Joi.boolean().default(false),
+  business_id: Joi.string().required(),
+  transaction_date: Joi.string().required(),
   status: Joi.string().valid('approved', 'pending', 'failed').default('pending'),
 });
 
