@@ -26,8 +26,8 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: process.env.NODE_ENV === 'production' ? 'https://api.payble.com' : 'http://localhost:3000',
-        description: process.env.NODE_ENV === 'production' ? 'Production server' : 'Development server'
+        url: process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : 'http://localhost:3000',
+        description: process.env.REPLIT_DEV_DOMAIN ? 'Replit development server' : 'Local development server'
       }
     ],
     components: {
@@ -137,7 +137,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(cors({
   origin: '*', // Allow all origins, you can specify a specific origin if needed
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], // Allowed HTTP methods
-  // allowedHeaders: ['Content-Type', 'Authorization'] // Allowed headers
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+  credentials: true // Allow credentials
 }));
 
 // app.use("/", indexRouter);
