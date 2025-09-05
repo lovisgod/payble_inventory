@@ -43,60 +43,72 @@ const swaggerOptions = {
           type: 'object',
           properties: {
             id: { type: 'integer', description: 'Unique identifier' },
+            color: { type: 'string', nullable: true, description: 'Item color' },
             name: { type: 'string', description: 'Item name' },
-            color: { type: 'string', description: 'Item color' },
             category_id: { type: 'string', format: 'uuid', description: 'Category UUID' },
-            variant: { type: 'string', format: 'uuid', description: 'Variant UUID' },
+            variant: { type: 'string', format: 'uuid', nullable: true, description: 'Variant UUID' },
             cost_price: { type: 'number', description: 'Cost price' },
             selling_price: { type: 'number', description: 'Selling price' },
-            in_stock: { type: 'boolean', description: 'Stock availability' },
-            low_stock_unit: { type: 'number', description: 'Low stock threshold' },
-            barcode: { type: 'string', description: 'Item barcode' },
-            sku: { type: 'string', description: 'Stock keeping unit' },
-            low_stock_alert: { type: 'boolean', description: 'Low stock alert enabled' },
-            image: { type: 'string', description: 'Item image URL' },
-            pricing_unit: { type: 'string', description: 'Pricing unit' },
+            low_stock_unit: { type: 'number', default: 0, description: 'Low stock threshold' },
+            barcode: { type: 'string', nullable: true, description: 'Item barcode' },
+            sku: { type: 'string', nullable: true, description: 'Stock keeping unit' },
+            low_stock_alert: { type: 'boolean', default: true, description: 'Low stock alert enabled' },
+            image: { type: 'string', nullable: true, description: 'Item image URL' },
+            pricing_unit: { type: 'string', nullable: true, description: 'Pricing unit' },
+            user_id: { type: 'string', description: 'User identifier' },
+            in_stock: { type: 'number', nullable: true, description: 'Stock quantity' },
             created_at: { type: 'string', format: 'date-time', description: 'Creation timestamp' }
-          }
+          },
+          required: ['name', 'category_id', 'cost_price', 'selling_price', 'user_id']
         },
         TillSale: {
           type: 'object',
           properties: {
-            user_id: { type: 'string', description: 'User identifier' },
+            id: { type: 'integer', description: 'Unique identifier' },
+            user_id: { type: 'string', nullable: true, description: 'User identifier' },
             items: {
               type: 'array',
+              nullable: true,
+              description: 'Array of JSON objects representing sold items',
               items: {
-                type: 'object',
-                properties: {
-                  item_id: { type: 'integer', description: 'Item ID' },
-                  name: { type: 'string', description: 'Item name' },
-                  quantity: { type: 'integer', minimum: 1, description: 'Quantity sold' },
-                  price: { type: 'string', description: 'Sale price' },
-                  discount: { type: 'string', description: 'Applied discount' },
-                  discount_type: { type: 'string', enum: ['percentage', 'fixed'], description: 'Discount type' }
-                }
+                type: 'object'
               }
             },
-            total_amount: { type: 'string', description: 'Total sale amount' },
-            change_amount: { type: 'string', description: 'Change given' },
-            payment_method: { type: 'string', enum: ['cash', 'card', 'transfer'], description: 'Payment method' },
-            notes: { type: 'string', description: 'Sale notes' },
-            ref: { type: 'string', description: 'Reference number' },
-            synced: { type: 'boolean', description: 'Sync status' },
-            business_id: { type: 'string', description: 'Business identifier' },
-            transaction_date: { type: 'string', description: 'Transaction date' },
-            status: { type: 'string', enum: ['approved', 'pending', 'failed'], description: 'Sale status' }
-          },
-          required: ['user_id', 'total_amount', 'payment_method', 'business_id', 'transaction_date']
+            total_amount: { type: 'string', nullable: true, description: 'Total sale amount' },
+            change_amount: { type: 'string', nullable: true, description: 'Change given' },
+            payment_method: { type: 'string', nullable: true, description: 'Payment method' },
+            transaction_date: { 
+              type: 'string', 
+              format: 'date-time', 
+              nullable: true, 
+              default: 'now()', 
+              description: 'Transaction timestamp' 
+            },
+            notes: { type: 'string', nullable: true, description: 'Sale notes' },
+            ref: { 
+              type: 'string', 
+              format: 'uuid', 
+              nullable: true, 
+              default: 'gen_random_uuid()', 
+              description: 'Reference UUID' 
+            },
+            status: { 
+              type: 'string', 
+              nullable: true, 
+              default: 'pending', 
+              description: 'Sale status' 
+            },
+            business_id: { type: 'string', nullable: true, description: 'Business identifier' }
+          }
         },
         Discount: {
           type: 'object',
           properties: {
             id: { type: 'integer', description: 'Discount ID' },
-            user_id: { type: 'string', description: 'User identifier' },
-            type: { type: 'string', description: 'Discount type' },
-            value: { type: 'number', description: 'Discount value' },
-            description: { type: 'string', description: 'Discount description' }
+            name: { type: 'string', nullable: true, default: '', description: 'Discount name' },
+            amount: { type: 'string', nullable: true, default: '', description: 'Discount amount' },
+            user_id: { type: 'string', nullable: true, default: '', description: 'User identifier' },
+            type: { type: 'string', nullable: true, default: 'AMOUNT', description: 'Discount type' }
           }
         },
         ApiResponse: {
