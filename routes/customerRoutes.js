@@ -4,11 +4,18 @@ const router = express.Router();
 
 /**
  * @swagger
- * /customers:
+ * /api/v2/customers:
  *   get:
  *     summary: Get all customers
  *     tags:
  *       - Customers
+ *     parameters:
+ *       - in: query
+ *         name: user_id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: id of the business or user that owns the account
  *     responses:
  *       200:
  *         description: List of customers
@@ -28,7 +35,7 @@ router.get('/', customerController.getCustomers);
 
 /**
  * @swagger
- * /customers:
+ * /api/v2/customers:
  *   post:
  *     summary: Add a new customer
  *     tags:
@@ -58,7 +65,7 @@ router.post('/', customerController.addCustomer);
 
 /**
  * @swagger
- * /customers/{id}:
+ * /api/v2/customers/{id}:
  *   get:
  *     summary: Get a customer by ID
  *     tags:
@@ -89,7 +96,7 @@ router.get('/:id', customerController.getCustomerDetail);
 
 /**
  * @swagger
- * /customers/{id}:
+ * /api/v2/customers/{id}:
  *   delete:
  *     summary: Delete a customer by ID
  *     tags:

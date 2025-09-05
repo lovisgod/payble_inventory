@@ -1,8 +1,8 @@
 const { CustomerRepository } = require('../repositories/customerRepository');
 
 const CustomerService = {
-  async fetchCustomers() {
-    return await CustomerRepository.getCustomers();
+  async fetchCustomers(user_id) {
+    return await CustomerRepository.getCustomers(user_id);
 },
 
 async createCustomer(customer) {

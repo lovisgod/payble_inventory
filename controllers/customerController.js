@@ -4,7 +4,11 @@ const { validateCustomerData } = require('../dtos/Customer');
 const customerController = {
     getCustomers: async (req, res) => {
         try {
-            const customers = await CustomerService.fetchCustomers();
+            const userId = req.query.user_id;
+            if (!userId) {
+                return res.status(400).json({ status: 'error', message: 'user_id query parameter is required' });
+            }
+            const customers = await CustomerService.fetchCustomers(userId);
             res.status(200).json({ status: 'success', customers });
         } catch (error) {
             res.status(400).json({ status: 'error', message: error.message });

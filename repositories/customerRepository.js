@@ -1,8 +1,8 @@
 const supabase = require('../handlers/supabaseConnector');
 
 const CustomerRepository = { 
-    async getCustomers() {
-    const { data, error } = await supabase.from('customers').select('*');
+    async getCustomers(user_id) {
+    const { data, error } = await supabase.from('customers').select('*').eq('user_id', user_id);;
     if (error) throw new Error(error.message);
     return data;
 },
